@@ -1,5 +1,5 @@
 const removeAllChildNodes = (parent) => {
-    while (parent.firstChild) {
+    while(parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
 }

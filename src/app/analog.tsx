@@ -1,66 +1,71 @@
 import { root } from "./utils/domElements";
+import { Digital } from "./digital";
 import { removeAllChildNodes } from "./utils/functions";
+import background from "./utils/images/analog-clock.jpg";
 
 export class Analog {
     static buildClock = () => {
-        removeAllChildNodes(root);
-
         const analog = document.createElement("div");
-        analog.id = "analog";
-        analog.style.border = "1px solid black";
-        analog.style.borderRadius = "100%";
-        analog.style.height = "500px";
-        analog.style.width = "500px";
-        analog.style.margin = "50px auto 0 auto";
-        root?.appendChild(analog);
-
-        const hourHand = document.createElement("div");
-        hourHand.id = "hour-hand";
-        hourHand.className = "hand";
-        hourHand.style.height = "150px";
-        hourHand.style.width = "15px";
-        analog.appendChild(hourHand);
-
-        const minuteHand = document.createElement("div");
-        minuteHand.id = "minute-hand";
-        minuteHand.className = "hand";
-        minuteHand.style.height = "225px";
-        minuteHand.style.width = "15px";
-        minuteHand.style.transformOrigin = "top";
-        minuteHand.style.transform = "translate(0, -150px)";
-        analog.appendChild(minuteHand);
-
         const secondHand = document.createElement("div");
-        secondHand.id = "minute-hand";
-        secondHand.className = "hand";
-        secondHand.style.height = "225px";
-        secondHand.style.width = "5px";
-        secondHand.style.transformOrigin = "top";
-        secondHand.style.transform = "translate(0, -375px)";
-        secondHand.style.backgroundColor = "red";
-        analog.appendChild(secondHand);
+        const minuteHand = document.createElement("div");
+        const hourHand = document.createElement("div");
 
-        let secondTick = 10;
-        setInterval(() => {
-            secondHand.style.translate = "0 -375px";
-            secondHand.style.transformOrigin = "top";
-            secondHand.style.transform = `rotate(${secondTick}deg)`;
-            secondTick = (secondTick + 10);
+        const interval = setInterval(() => {
+            const date = new Date();
+
+            analog.id = "analog";
+            analog.style.position = "relative";
+            analog.style.height = "300px";
+            analog.style.width = "300px";
+            analog.style.margin = "50px auto 0 auto";
+            analog.style.background = `url(${background}) no-repeat`;
+            root?.appendChild(analog);
+
+            const second = date.getSeconds();
+            const secondRotation = 6 * second;
+            secondHand.id = "second-hand";
+            secondHand.className = "hand";
+            secondHand.style.position = "absolute";
+            secondHand.style.top = "9%";
+            secondHand.style.left = "49.25%";
+            secondHand.style.height = "40%";
+            secondHand.style.width = "1%";
+            secondHand.style.transform = `rotate(${secondRotation}deg)`;
+            secondHand.style.backgroundColor = "red";
+            analog.appendChild(secondHand);
+
+            const minute = date.getMinutes();
+            const minuteRotation = 6 * minute;
+            minuteHand.id = "minute-hand";
+            minuteHand.className = "hand";
+            minuteHand.style.position = "absolute";
+            minuteHand.style.top = "19%";
+            minuteHand.style.left = "48.9%";
+            minuteHand.style.height = "30%";
+            minuteHand.style.width = "1.6%";
+            minuteHand.style.transform = `rotate(${minuteRotation}deg)`;
+            analog.appendChild(minuteHand);
+
+            const hour = date.getHours();
+            const hourRotation = 30 * hour + minute / 2;
+            hourHand.id = "hour-hand";
+            hourHand.className = "hand";
+            hourHand.style.position = "absolute";
+            hourHand.style.top = "25%";
+            hourHand.style.left = "48.85%";
+            hourHand.style.height = "25%";
+            hourHand.style.width = "1.8%";
+            hourHand.style.transform = `rotate(${hourRotation}deg)`;
+            analog.appendChild(hourHand);
         }, 1000);
 
-        let minuteTick = 10;
-        setInterval(() => {
-            minuteHand.style.translate = "0 -150px";
-            minuteHand.style.transformOrigin = "top";
-            minuteHand.style.transform = `rotate(${minuteTick}deg)`;
-            minuteTick = (minuteTick + 10);
-        }, 10000);
-
-        let hourTick = 10;
-        setInterval(() => {
-            hourHand.style.transformOrigin = "top";
-            hourHand.style.transform = `rotate(${hourTick}deg)`;
-            hourTick = (hourTick + 10);
-        }, 100000);
+        const digitalBtn = document.createElement("button");
+        digitalBtn.textContent = "Switch to Digital Clock";
+        digitalBtn.onclick = () => {
+            clearInterval(interval);
+            removeAllChildNodes(root);
+            Digital.buildClock();
+        }
+        root.appendChild(digitalBtn);
     }
 };
