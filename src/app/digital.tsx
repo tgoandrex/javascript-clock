@@ -6,43 +6,50 @@ export class Digital {
     static buildClock = () => {
         const digital = document.createElement("div");
         digital.id = "digital";
-        digital.style.border = "1px solid black";
-        digital.style.height = "250px";
-        digital.style.width = "450px";
-        digital.style.margin = "50px auto 0 auto";
+        digital.style.border = "10px solid black";
+        digital.style.borderRadius = "15px";
+        digital.style.height = "175px";
+        digital.style.width = "330px";
+        digital.style.margin = "50px auto";
+        digital.style.fontSize = "4rem";
+        digital.style.fontFamily = "'Orbitron', sans-serif";
+        digital.style.color = "red";
+        digital.style.display = "flex";
+        digital.style.alignItems = "center";
         root?.appendChild(digital);
 
-        const screen = document.createElement("div");
-        screen.style.display = "flex";
-
-        digital.appendChild(screen);
-
         const hourScreen = document.createElement("div");
-        hourScreen.style.flexGrow = "1";
-        screen.appendChild(hourScreen);
+        hourScreen.style.flexGrow = "2";
+        digital.appendChild(hourScreen);
+
+        const colonScreen = document.createElement("div");
+        colonScreen.style.flexGrow = "1";
+        colonScreen.textContent = ":";
+        digital.appendChild(colonScreen);
 
         const minuteScreen = document.createElement("div");
-        minuteScreen.style.flexGrow = "1";
-        screen.appendChild(minuteScreen);
+        minuteScreen.style.flexGrow = "2";
+        digital.appendChild(minuteScreen);
         
         const secondScreen = document.createElement("div");
-        secondScreen.style.flexGrow = "1";
-        screen.appendChild(secondScreen);
+        secondScreen.style.flexGrow = "2";
+        digital.appendChild(secondScreen);
 
         const interval = setInterval(() => {
             const date = new Date();
 
             const hour = date.getHours();
-            hourScreen.innerHTML = hour.toString();
+            hourScreen.textContent = hour.toString();
 
-            const second = date.getSeconds();
-            secondScreen.innerHTML = second.toString();
+            const second = (date.getSeconds()<10?'0':'') + date.getSeconds();
+            secondScreen.textContent = second.toString();
 
-            const minute = date.getMinutes();
-            minuteScreen.innerHTML = minute.toString();
+            const minute = (date.getMinutes()<10?'0':'') + date.getMinutes();
+            minuteScreen.textContent = minute.toString();
         }, 1000);
 
         const analogBtn = document.createElement("button");
+        analogBtn.className = "button";
         analogBtn.textContent = "Switch to Analog Clock";
         analogBtn.onclick = () => {
             clearInterval(interval);

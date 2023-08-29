@@ -17,7 +17,7 @@ export class Analog {
             analog.style.position = "relative";
             analog.style.height = "300px";
             analog.style.width = "300px";
-            analog.style.margin = "50px auto 0 auto";
+            analog.style.margin = "50px auto";
             analog.style.background = `url(${background}) no-repeat`;
             root?.appendChild(analog);
 
@@ -60,6 +60,7 @@ export class Analog {
         }, 1000);
 
         const digitalBtn = document.createElement("button");
+        digitalBtn.className = "button";
         digitalBtn.textContent = "Switch to Digital Clock";
         digitalBtn.onclick = () => {
             clearInterval(interval);
