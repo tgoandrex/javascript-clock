@@ -65,7 +65,7 @@ export class Analog {
         digitalBtn.onclick = () => {
             clearInterval(interval);
             removeAllChildNodes(root);
-            Digital.buildClock();
+            Digital.buildClock("12 hour");
         }
         root.appendChild(digitalBtn);
     }
