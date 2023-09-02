@@ -1,7 +1,8 @@
 import { root } from "./utils/domElements";
-import { Digital } from "./digital";
+import { Digital } from "./Digital";
+import { Alarm } from "./Alarm";
 import { removeAllChildNodes } from "./utils/functions";
-import background from "./utils/images/analog-clock.jpg";
+import clockImage from "./utils/images/analog-clock.jpg";
 
 export class Analog {
     static buildClock = () => {
@@ -10,16 +11,16 @@ export class Analog {
         const minuteHand = document.createElement("div");
         const hourHand = document.createElement("div");
 
+        analog.id = "analog";
+        analog.style.position = "relative";
+        analog.style.height = "300px";
+        analog.style.width = "300px";
+        analog.style.margin = "50px auto";
+        analog.style.background = `url(${clockImage}) no-repeat`;
+        root?.appendChild(analog);
+
         const interval = setInterval(() => {
             const date = new Date();
-
-            analog.id = "analog";
-            analog.style.position = "relative";
-            analog.style.height = "300px";
-            analog.style.width = "300px";
-            analog.style.margin = "50px auto";
-            analog.style.background = `url(${background}) no-repeat`;
-            root?.appendChild(analog);
 
             const second = date.getSeconds();
             const secondRotation = 6 * second;
@@ -57,6 +58,8 @@ export class Analog {
             hourHand.style.width = "1.8%";
             hourHand.style.transform = `rotate(${hourRotation}deg)`;
             analog.appendChild(hourHand);
+
+            Alarm.setOffAlarm(interval);
         }, 1000);
 
         const digitalBtn = document.createElement("button");
@@ -65,6 +68,13 @@ export class Analog {
         digitalBtn.onclick = () => {
             clearInterval(interval);
             removeAllChildNodes(root);
+
+            if(localStorage.getItem("alarm")) {
+                Alarm.buildAlarmInfo();
+            } else {
+                Alarm.buildAlarmForm();
+            }
+            
             Digital.buildClock("12 hour");
         }
         root.appendChild(digitalBtn);

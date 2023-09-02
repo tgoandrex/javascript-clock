@@ -1,5 +1,6 @@
 import { root } from "./utils/domElements";
-import { Analog } from "./analog";
+import { Analog } from "./Analog";
+import { Alarm } from "./Alarm";
 import { removeAllChildNodes } from "./utils/functions";
 
 export class Digital {
@@ -11,7 +12,7 @@ export class Digital {
         digital.style.height = "175px";
         digital.style.width = "330px";
         digital.style.margin = "50px auto";
-        digital.style.fontSize = "4rem";
+        digital.style.fontSize = "3.8rem";
         digital.style.fontFamily = "'Orbitron', sans-serif";
         digital.style.color = "red";
         digital.style.display = "flex";
@@ -52,6 +53,8 @@ export class Digital {
 
             const minute = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
             minuteScreen.textContent = minute.toString();
+
+            Alarm.setOffAlarm(interval);
         }, 1000);
 
         date = new Date();
@@ -81,6 +84,13 @@ export class Digital {
         radioBtn1.onclick = () => {
             clearInterval(interval);
             removeAllChildNodes(root);
+
+            if(localStorage.getItem("alarm")) {
+                Alarm.buildAlarmInfo();
+            } else {
+                Alarm.buildAlarmForm();
+            }
+            
             Digital.buildClock("12 hour");
         }
         form.appendChild(radioBtn1);
@@ -99,6 +109,13 @@ export class Digital {
         radioBtn2.onclick = () => {
             clearInterval(interval);
             removeAllChildNodes(root);
+            
+            if(localStorage.getItem("alarm")) {
+                Alarm.buildAlarmInfo();
+            } else {
+                Alarm.buildAlarmForm();
+            }
+
             Digital.buildClock("24 hour");
         }
         form.appendChild(radioBtn2);
@@ -114,6 +131,13 @@ export class Digital {
         analogBtn.onclick = () => {
             clearInterval(interval);
             removeAllChildNodes(root);
+            
+            if(localStorage.getItem("alarm")) {
+                Alarm.buildAlarmInfo();
+            } else {
+                Alarm.buildAlarmForm();
+            }
+            
             Analog.buildClock();
         }
         root.appendChild(analogBtn);    
