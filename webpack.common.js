@@ -20,13 +20,9 @@ module.exports = {
                 use: ["style-loader", "css-loader"]
             },
             {
-                test: /\.(png|jpe?g|gif)$/i,
+                test: /\.(png|jpe?g|gif|mp3)$/i,
                 use: 'file-loader'
-            },
-            {
-                test: /\.mp3$/,
-                use: 'file-loader'
-              }
+            }
         ]
     },
     resolve: {
