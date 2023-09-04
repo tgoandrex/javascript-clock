@@ -68,7 +68,6 @@ export class Digital {
         }
 
         const form = document.createElement("form");
-        form.style.marginBottom = "20px";
         root.appendChild(form);
 
         const formMessage = document.createElement("div");

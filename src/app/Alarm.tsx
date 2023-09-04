@@ -40,9 +40,8 @@ export class Alarm {
         formTitle.textContent = "Set New Alarm";
         form.appendChild(formTitle);
 
-        // <div class="form-group">?
-
         const labelTime = document.createElement("label");
+        labelTime.style.marginRight = "10px";
         labelTime.htmlFor = "time";
         labelTime.textContent = "Time:";
         form.appendChild(labelTime);
@@ -60,6 +59,7 @@ export class Alarm {
         form.appendChild(lineBreak);
 
         const submitBtn = document.createElement("input");
+        submitBtn.className = "button";
         submitBtn.type = "submit";
         submitBtn.value = "Submit";
         form.appendChild(submitBtn);
@@ -80,12 +80,17 @@ export class Alarm {
         const infoContainer = document.createElement("div");
         root.appendChild(infoContainer);
 
+        const date = new Date();
+        const alarmTimeNumber = Number.parseInt(JSON.parse(localStorage.getItem("alarm")).time);
 
         const alarmInfo = document.createElement("div");
-        alarmInfo.textContent = `Alarm set to ${JSON.parse(localStorage.getItem("alarm")).time}`;
+        alarmInfo.textContent = `Alarm set to ${JSON.parse(localStorage.getItem("alarm")).time} (` + (alarmTimeNumber >= date.getHours() ? 
+            `${alarmTimeNumber - date.getHours()} hours from now)` : 
+            `${alarmTimeNumber -  date.getHours() + 24} hours from now)`);
         infoContainer.appendChild(alarmInfo);
 
         const disableAlarmBtn = document.createElement("input");
+        disableAlarmBtn.className = "button";
         disableAlarmBtn.type = "submit";
         disableAlarmBtn.value = "Cancel Alarm";
 
